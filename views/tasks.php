@@ -1,6 +1,26 @@
 <? view('includes/header') ?>
     <div class="container">
       <h1>TODO list:</h1>
+      <form class="form-inline">
+        <div class="form-group mb-2">
+          <div class="form-control-plaintext">Сортировать по</div>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+          <select class="form-control" name="orderBy">
+            <option value="id">ID</option>
+            <option value="email">Email</option>
+            <option value="completed">Статусу</option>
+          </select>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+          <select class="form-control" name="direction">
+            <option value="asc">0->9</option>
+            <option value="desc">9->0</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Отсортировать</button>
+      </form>
+      <br>
       <? foreach ($tasks as $task) { ?>
         <div class="alert alert-warning">
           <?=$task['id'] ?>. <strong><a href="mailto:<?=$task['email'] ?>"><?=$task['username'] ?></a></strong> <?=$task['text'] ?>

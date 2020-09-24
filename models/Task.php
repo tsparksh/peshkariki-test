@@ -31,9 +31,30 @@ class Task extends Model
 		return ceil(self::count() / $perPage); // Число страниц с заданным количеством элементов на страницу
 	}
 
-	public static function getPaginated(int $perPage, int $page){
+	public static function getPaginated(int $perPage, int $page, string $orderBy = null, string $direction = null){
 		$offset = ($page - 1) * $perPage;
 
-		return Database::execute('SELECT * FROM tasks ORDER BY id DESC LIMIT :offset, :perPage', compact('offset', 'perPage')); // Получаем N записей с заданным сдвигом
+		switch ($orderBy) {
+			case 'email':
+				$orderBy = 'email';
+				break;
+			case 'completed':
+				$orderBy = 'completed';
+				break;
+			default:
+				$orderBy = 'id';
+				break;
+		}
+
+		switch ($direction) {
+			case 'asc':
+				$direction = 'asc';
+				break;
+			default:
+				$direction = 'desc';
+				break;
+		}
+
+		return Database::execute("SELECT * FROM tasks ORDER BY $orderBy $direction LIMIT :offset, :perPage", compact('offset', 'perPage')); // Получаем N записей с заданным сдвигом
 	}
 }
